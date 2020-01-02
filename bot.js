@@ -29,7 +29,8 @@ client.on("message", msg => {
                 return;
             }
 
-            item_funcs.add_items(argc, argv);
+            var nb_items = item_funcs.add_items(argc, argv);
+            msg.channel.send(`Finished adding **${nb_items}** items.`);
         }
     }
 });
