@@ -18,13 +18,19 @@ function display(channel)
 
 function add_items(argc, argv)
 {
+    var nb_items = 0;
     for (var i = 2; i < argc; i++)
     {
         if (!item_list.includes(argv[i]))
+        {
             item_list.push(argv[i]);
+            nb_items++;
+        }
     }
 
     fs.writeFileSync("data/items.json", JSON.stringify(item_list));
+
+    return nb_items;
 }
 
 module.exports = {
