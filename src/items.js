@@ -28,10 +28,13 @@ function add_items(argc, argv)
         }
     }
 
+    item_list.sort();
     fs.writeFileSync("data/items.json", JSON.stringify(item_list));
 
     return nb_items;
 }
+
+
 
 module.exports = {
     display: display,
