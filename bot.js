@@ -29,9 +29,24 @@ client.on("message", msg => {
                 return;
             }
 
-            var nb_items = item_funcs.add_items(argc, argv);
-            msg.channel.send(`Finished adding **${nb_items}** items.`);
+            item_funcs.add_items(argc, argv, msg.channel);
         }
+
+        else if (argv[1] == "delete")
+        {
+            if (argc <= 2)
+            {
+                msg.channel.send("`item: usage: -item"
+                    + " [add|delete item-name...]`");
+
+                return;
+            }
+
+            item_funcs.delete_items(argc, argv, msg.channel);
+        }
+
+        else
+            msg.channel.send("`item: usage: -item [add|delete item-name...]`");
     }
 });
 
