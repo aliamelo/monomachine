@@ -7,7 +7,7 @@ function display(channel)
 
     for (var item in item_list)
     {
-        if (item)
+        if (item != 0)
             items_str += ", ";
 
         items_str += item_list[item];
@@ -18,10 +18,16 @@ function display(channel)
 
 function add_items(argc, argv)
 {
-    console.log("boup");
+    for (var i = 2; i < argc; i++)
+    {
+        if (!item_list.includes(argv[i]))
+            item_list.push(argv[i]);
+    }
+
+    fs.writeFileSync("data/items.json", JSON.stringify(item_list));
 }
 
 module.exports = {
-    display: display
+    display: display,
     add_items: add_items
 }
