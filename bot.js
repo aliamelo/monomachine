@@ -6,6 +6,7 @@ const ids = JSON.parse(fs.readFileSync("data/ids.json"));
 
 const item_funcs = require("./src/items.js");
 const draw_funcs = require("./src/draw.js");
+const help_funcs = require("./src/help.js");
 
 client.on("ready", () => {
     console.log("Monomachine started");
@@ -58,15 +59,19 @@ client.on("message", msg => {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argc < 3 || isNaN(argv[2]))
+        if (argc < 4 || isNaN(argv[2]))
         {
-            msg.channel.send("`set: usage: -set item nb`");
+            msg.channel.send("`set: usage: -set item nb user`");
             return;
         }
 
         else
-            draw_funcs.set_item(msg.member.id, argv[1], parseInt(argv[2]));
+            draw_funcs.set_item(msg.mentions.users.first().id,
+                argv[1], parseInt(argv[2]));
     }
+
+    else if (msg.content == "-help")
+        help_funcs.help_message(client.user, msg.channel);
 });
 
 client.login(ids.token);
