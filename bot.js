@@ -5,6 +5,8 @@ const fs = require("fs");
 const ids = JSON.parse(fs.readFileSync("data/ids.json"));
 
 const item_funcs = require("./src/items.js");
+const draw_funcs = require("./src/draw.js");
+const help_funcs = require("./src/help.js");
 
 client.on("ready", () => {
     console.log("Monomachine started");
@@ -48,6 +50,28 @@ client.on("message", msg => {
         else
             msg.channel.send("`item: usage: -item [add|delete item-name...]`");
     }
+
+    else if (msg.content == "-tirage")
+        draw_funcs.draw_command(msg);
+
+    else if (msg.content.startsWith("-set"))
+    {
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        if (argc < 4 || isNaN(argv[2]))
+        {
+            msg.channel.send("`set: usage: -set item nb user`");
+            return;
+        }
+
+        else
+            draw_funcs.set_item(msg.mentions.users.first().id,
+                argv[1], parseInt(argv[2]));
+    }
+
+    else if (msg.content == "-help")
+        help_funcs.help_message(client.user, msg.channel);
 });
 
 client.login(ids.token);
