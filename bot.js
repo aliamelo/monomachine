@@ -59,15 +59,17 @@ client.on("message", msg => {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argc < 4 || isNaN(argv[2]))
+        if (argc < 4 || isNaN(argv[2]) || !argv[3].startsWith("<@!"))
         {
             msg.channel.send("`set: usage: -set item nb user`");
             return;
         }
 
         else
+        {
             draw_funcs.set_item(msg.mentions.users.first().id,
                 argv[1], parseInt(argv[2]));
+        }
     }
 
     else if (msg.content == "-help")
