@@ -28,7 +28,15 @@ function set_item(id, item, nb)
     if (nb <= 0)
         delete(inventory[id][item]);
     else
-        inventory[id][item] = nb;
+    {
+        if (inventory.hasOwnProperty(id))
+            inventory[id][item] = nb;
+        else
+        {
+            var new_user = { [item]: nb };
+            inventory[id] = new_user;
+        }
+    }
 
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
