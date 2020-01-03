@@ -1,5 +1,16 @@
 const fs = require("fs");
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
+const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
+
+function add_item(item, id)
+{
+    if (inventory[id].hasOwnProperty(item))
+        inventory[id][item]++;
+    else
+        inventory[id][item] = 1;
+
+    fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
+}
 
 function draw_command(msg)
 {
@@ -11,5 +22,5 @@ function draw_command(msg)
 }
 
 module.exports = {
-    draw_command: draw_command
+    draw_command: draw_command,
 }
