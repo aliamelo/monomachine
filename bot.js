@@ -51,8 +51,21 @@ client.on("message", msg => {
     }
 
     else if (msg.content == "-tirage")
-    {
         draw_funcs.draw_command(msg);
+
+    else if (msg.content.startsWith("-set"))
+    {
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        if (argc < 3 || isNaN(argv[2]))
+        {
+            msg.channel.send("`set: usage: -set item nb`");
+            return;
+        }
+
+        else
+            draw_funcs.set_item(msg.member.id, argv[1], parseInt(argv[2]));
     }
 });
 
