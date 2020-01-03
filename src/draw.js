@@ -1,7 +1,7 @@
 const fs = require("fs");
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 
-function tirage_command(msg)
+function draw_command(msg)
 {
     var nb_items = item_list.length;
     var index = Math.floor(Math.random() * nb_items);
@@ -11,5 +11,5 @@ function tirage_command(msg)
 }
 
 module.exports = {
-    tirage_command: tirage_command
+    draw_command: draw_command
 }
