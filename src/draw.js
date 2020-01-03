@@ -4,10 +4,19 @@ const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
 
 function add_item(id, item)
 {
-    if (inventory[id].hasOwnProperty(item))
-        inventory[id][item]++;
+    if (inventory.hasOwnProperty(id))
+    {
+        if (inventory[id].hasOwnProperty(item))
+            inventory[id][item]++;
+        else
+            inventory[id][item] = 1;
+    }
+
     else
-        inventory[id][item] = 1;
+    {
+        var new_obj = { [item]: 1 };
+        inventory[id] = new_obj;
+    }
 
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
@@ -33,8 +42,8 @@ function set_item(id, item, nb)
             inventory[id][item] = nb;
         else
         {
-            var new_user = { [item]: nb };
-            inventory[id] = new_user;
+            var new_obj = { [item]: nb };
+            inventory[id] = new_obj;
         }
     }
 
