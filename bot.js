@@ -5,7 +5,7 @@ const fs = require("fs");
 const ids = JSON.parse(fs.readFileSync("data/ids.json"));
 
 const item_funcs = require("./src/items.js");
-const tirage_funcs = require("./src/tirage.js");
+const draw_funcs = require("./src/draw.js");
 
 client.on("ready", () => {
     console.log("Monomachine started");
@@ -52,7 +52,7 @@ client.on("message", msg => {
 
     else if (msg.content == "-tirage")
     {
-        tirage_funcs.tirage_command(msg);
+        draw_funcs.draw_command(msg);
     }
 });
 
