@@ -1,4 +1,6 @@
+const Discord = require("../dependencies/node_modules/discord.js");
 const fs = require("fs");
+
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
 
@@ -50,7 +52,40 @@ function set_item(id, item, nb)
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
 
+function get_inventory(user, guild_memb, page_nb)
+{
+    var inv = new Discord.RichEmbed();
+
+    var user_inv = inventory[user.id];
+    var length = Object.keys(user_inv).length;
+
+    if (page_nb < 0)
+        page_nb = Math.floor(length / 15);
+    else if (page_nb > Math.floor(length / 15))
+        page_nb = 0;
+
+    var max_page = Math.floor(length / 15);
+    if (max_page > 0)
+        inv.setFooter(`Page ${page_nb + 1} / ${max_page + 1}`);
+
+    if (inventory.hasOwnProperty(user.id))
+    {
+        var inv_array = Object.entries(user_inv);
+        var inv_str = "";
+        for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)
+            inv_str += `${inv_array[i][1]}x **${inv_array[i][0]}**\n`;
+
+        inv.addField("** **", inv_str);
+    }
+
+    inv.setAuthor(`${user.username}'s inventory`, user.avatarURL);
+    inv.setColor(guild_memb.displayColor);
+
+    return inv;
+}
+
 module.exports = {
     draw_command: draw_command,
-    set_item: set_item
+    set_item: set_item,
+    get_inventory: get_inventory
 }
