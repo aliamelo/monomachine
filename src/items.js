@@ -2,7 +2,7 @@ const Discord = require("../dependencies/node_modules/discord.js");
 const fs = require("fs");
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 
-function get_items_embed(bot, page_nb)
+function get_items_embed(bot_user, bot_guild_memb, page_nb)
 {
     var inv = new Discord.RichEmbed();
 
@@ -21,8 +21,8 @@ function get_items_embed(bot, page_nb)
         items += item_list[i] + '\n';
 
     inv.addField("** **", items);
-    inv.setAuthor("Monomachine items", bot.avatarURL);
-    //inv.setColor(guild_member.displayColor);
+    inv.setAuthor("Monomachine items", bot_user.avatarURL);
+    inv.setColor(bot_guild_memb.displayColor);
 
     return inv;
 }
