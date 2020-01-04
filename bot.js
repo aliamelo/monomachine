@@ -78,7 +78,7 @@ client.on("message", msg => {
 
         if (argc < 4 || isNaN(argv[3]) || !argv[1].startsWith("<@!"))
         {
-            msg.channel.send("`set: usage: -set item nb user`");
+            msg.channel.send("`set: usage: -set user item nb`");
             return;
         }
 
@@ -86,6 +86,7 @@ client.on("message", msg => {
         {
             draw_funcs.set_item(msg.mentions.users.first().id,
                 argv[2], parseInt(argv[3]));
+            msg.channel.send("Done.");
         }
     }
 

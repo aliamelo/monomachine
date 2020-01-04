@@ -20,6 +20,12 @@ function add_item(id, item)
         inventory[id] = new_obj;
     }
 
+    var ordered = {};
+    Object.keys(inventory[id]).sort().forEach(function(key) {
+        ordered[key] = inventory[id][key];
+    });
+
+    inventory[id] = ordered;
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
 
@@ -49,6 +55,12 @@ function set_item(id, item, nb)
         }
     }
 
+    var ordered = {};
+    Object.keys(inventory[id]).sort().forEach(function(key) {
+        ordered[key] = inventory[id][key];
+    });
+
+    inventory[id] = ordered;
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
 
