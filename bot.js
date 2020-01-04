@@ -8,6 +8,10 @@ const item_funcs = require("./src/items.js");
 const draw_funcs = require("./src/draw.js");
 const help_funcs = require("./src/help.js");
 
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 client.on("ready", () => {
 
     client.user.setActivity("souhaite votre mort.");
@@ -22,7 +26,16 @@ client.on("message", msg => {
         var argc = argv.length;
 
         if (argc == 1)
-            msg.channel.send(item_funcs.get_items_embed(client.user, 0));
+        {
+            var msg_promise =
+                msg.channel.send(item_funcs.get_items_embed(client.user, 0));
+
+            msg_promise.then(sent => {
+                sent.react("%E2%AC%85%EF%B8%8F");
+                sleep(2).then();
+                sent.react("%E2%9E%A1%EF%B8%8F");
+            });
+        }
 
         else if (argv[1] == "add")
         {
