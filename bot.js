@@ -105,14 +105,14 @@ client.on("messageReactionAdd", (react, user) => {
         {
             var items_embed = item_funcs.get_items_embed(client.user,
                 parseInt(page_nb) + 1);
-            react.message.channel.send(items_embed);
+            react.message.edit(items_embed);
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F") // left arrow
         {
             var items_embed = item_funcs.get_items_embed(client.user,
                 parseInt(page_nb) - 1);
-            react.message.channel.send(items_embed);
+            react.message.edit(items_embed);
         }
     }
 });
