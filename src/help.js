@@ -9,6 +9,8 @@ function help_message(bot_user, bot_guild_memb, channel)
     help.setFooter("monomachine - written in js by alia");
     help.addField("-tirage", "Draw an item and add it to user's inventory");
     help.addField("-help", "Display this window");
+    help.addField("-inventory, -inv", "Display inventory of a user "
+        + "(message sender by default)\n`usage: -inv|inventory [@user]`");
     help.addField("-item (admin)", "Display list of items or add/delete items "
         + "from item list.\n`usage: -item [add|delete item-name...]`");
     help.addField("-set (admin)", "Set `nb` `item` for `user`. A zero or "
