@@ -97,21 +97,21 @@ client.on("messageReactionAdd", (react, user) => {
         return;
 
     var embed = react.message.embeds[0];
-    var page_nb = embed.footer.text.split(' ')[1] - 1;
+    var page_nb = parseInt(embed.footer.text.split(' ')[1]) - 1;
 
     if (embed.author.name == "Monomachine items")
     {
         if (react.emoji.identifier == "%E2%9E%A1%EF%B8%8F") // right arrow
         {
             var items_embed = item_funcs.get_item_list(client.user,
-                parseInt(page_nb) + 1);
+                react.message.channel.members.get(ids.bot), page_nb + 1);
             react.message.edit(items_embed);
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F") // left arrow
         {
             var items_embed = item_funcs.get_item_list(client.user,
-                parseInt(page_nb) - 1);
+                react.message.channel.members.get(ids.bot), page_nb - 1);
             react.message.edit(items_embed);
         }
     }
