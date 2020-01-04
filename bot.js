@@ -23,7 +23,7 @@ client.on("message", msg => {
 
         if (argc == 1)
         {
-            var items_embed = item_funcs.get_items_embed(client.user,
+            var items_embed = item_funcs.get_item_list(client.user,
                 msg.channel.members.get(ids.bot), 0);
             var msg_promise = msg.channel.send(items_embed);
 
@@ -103,14 +103,14 @@ client.on("messageReactionAdd", (react, user) => {
     {
         if (react.emoji.identifier == "%E2%9E%A1%EF%B8%8F") // right arrow
         {
-            var items_embed = item_funcs.get_items_embed(client.user,
+            var items_embed = item_funcs.get_item_list(client.user,
                 parseInt(page_nb) + 1);
             react.message.edit(items_embed);
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F") // left arrow
         {
-            var items_embed = item_funcs.get_items_embed(client.user,
+            var items_embed = item_funcs.get_item_list(client.user,
                 parseInt(page_nb) - 1);
             react.message.edit(items_embed);
         }
