@@ -23,8 +23,8 @@ client.on("message", msg => {
 
         if (argc == 1)
         {
-            var bot = client.guilds.get(ids.test_guild).members.get(ids.bot);
-            var items_embed = item_funcs.get_items_embed(client.user, bot, 0);
+            var items_embed = item_funcs.get_items_embed(client.user,
+                msg.channel.members.get(ids.bot), 0);
             var msg_promise = msg.channel.send(items_embed);
 
             if (items_embed.footer)
@@ -88,7 +88,8 @@ client.on("message", msg => {
     }
 
     else if (msg.content == "-help")
-        help_funcs.help_message(client.user, msg.channel);
+        help_funcs.help_message(client.user, msg.channel.members.get(ids.bot),
+            msg.channel);
 });
 
 client.on("messageReactionAdd", (react, user) => {
