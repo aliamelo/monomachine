@@ -9,6 +9,9 @@ const draw_funcs = require("./src/draw.js");
 const help_funcs = require("./src/help.js");
 
 client.on("ready", () => {
+
+    client.user.setActivity("souhaite votre mort.");
+
     console.log("Monomachine started");
 });
 
@@ -19,7 +22,19 @@ client.on("message", msg => {
         var argc = argv.length;
 
         if (argc == 1)
-            item_funcs.display(msg.channel);
+        {
+            var items_embed = item_funcs.get_item_list(client.user,
+                msg.channel.members.get(ids.bot), 0);
+            var msg_promise = msg.channel.send(items_embed);
+
+            if (items_embed.footer)
+            {
+                msg_promise.then(async function(sent) {
+                    await sent.react("%E2%AC%85%EF%B8%8F");
+                    await sent.react("%E2%9E%A1%EF%B8%8F");
+                });
+            }
+        }
 
         else if (argv[1] == "add")
         {
@@ -73,7 +88,33 @@ client.on("message", msg => {
     }
 
     else if (msg.content == "-help")
-        help_funcs.help_message(client.user, msg.channel);
+        help_funcs.help_message(client.user, msg.channel.members.get(ids.bot),
+            msg.channel);
+});
+
+client.on("messageReactionAdd", (react, user) => {
+    if (user.bot)
+        return;
+
+    var embed = react.message.embeds[0];
+    var page_nb = embed.footer.text.split(' ')[1] - 1;
+
+    if (embed.author.name == "Monomachine items")
+    {
+        if (react.emoji.identifier == "%E2%9E%A1%EF%B8%8F") // right arrow
+        {
+            var items_embed = item_funcs.get_item_list(client.user,
+                parseInt(page_nb) + 1);
+            react.message.edit(items_embed);
+        }
+
+        else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F") // left arrow
+        {
+            var items_embed = item_funcs.get_item_list(client.user,
+                parseInt(page_nb) - 1);
+            react.message.edit(items_embed);
+        }
+    }
 });
 
 client.login(ids.token);

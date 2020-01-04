@@ -1,19 +1,11 @@
 const fs = require("fs");
+
+const utils_funcs = require("./utils.js")
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 
-function display(channel)
+function get_item_list(bot_user, bot_guild_memb, pg)
 {
-    var items_str = "";
-
-    for (var item in item_list)
-    {
-        if (item != 0)
-            items_str += ", ";
-
-        items_str += item_list[item];
-    }
-
-    channel.send(items_str);
+    return utils_funcs.get_items_embed(bot_user, bot_guild_memb, item_list, pg);
 }
 
 function add_items(argc, argv, channel)
@@ -58,7 +50,7 @@ function delete_items(argc, argv, channel)
 }
 
 module.exports = {
-    display: display,
+    get_item_list: get_item_list,
     add_items: add_items,
     delete_items: delete_items
 }

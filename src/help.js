@@ -1,11 +1,11 @@
 const Discord = require("../dependencies/node_modules/discord.js");
 
-function help_message(bot, channel)
+function help_message(bot_user, bot_guild_memb, channel)
 {
     var help = new Discord.RichEmbed();
 
-    help.setAuthor("Monomachine help", bot.avatarURL);
-    //help.color =
+    help.setAuthor("Monomachine help", bot_user.avatarURL);
+    help.setColor(bot_guild_memb.displayColor);
     help.setFooter("monomachine - written in js by alia");
     help.addField("-tirage", "Draw an item and add it to user's inventory");
     help.addField("-help", "Display this window");
