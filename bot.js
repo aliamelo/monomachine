@@ -20,6 +20,14 @@ var inv_user;
 client.on("message", msg => {
     if (msg.content.startsWith("-item"))
     {
+        if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+        {
+            msg.channel.send("Wait, that's illegal ! "
+                + "(seule nimou peut utiliser cette commande)");
+
+            return;
+        }
+
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
@@ -73,6 +81,14 @@ client.on("message", msg => {
 
     else if (msg.content.startsWith("-set"))
     {
+        if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+        {
+            msg.channel.send("Wait, that's illegal."
+                + "(seule nimou peut utiliser cette commande)");
+
+            return;
+        }
+
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
