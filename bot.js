@@ -15,6 +15,8 @@ client.on("ready", () => {
     console.log("Monomachine started");
 });
 
+var inv_user;
+
 client.on("message", msg => {
     if (msg.content.startsWith("-item"))
     {
@@ -97,6 +99,8 @@ client.on("message", msg => {
             msg.channel.members.get(msg.author.id), 0);
         var inv_promise = msg.channel.send(inv_embed);
 
+        inv_user = msg.author;
+
         if (inv_embed.footer)
         {
             inv_promise.then(async function(sent) {
@@ -135,15 +139,17 @@ client.on("messageReactionAdd", (react, user) => {
     {
         if (react.emoji.identifier == "%E2%9E%A1%EF%B8%8F")
         {
-            //var inv_embed = draw_funcs.get_inventory(, page_nb + 1);
-            react.message.edit(items_embed);
+
+            var inv_embed = draw_funcs.get_inventory(inv_user,
+                react.message.channel.members.get(inv_user.id), page_nb + 1);
+            react.message.edit(inv_embed);
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F")
         {
-            var items_embed = item_funcs.get_item_list(client.user,
-                react.message.channel.members.get(ids.bot), page_nb - 1);
-            react.message.edit(items_embed);
+            var inv_embed = draw_funcs.get_inventory(inv_user,
+                react.message.channel.members.get(inv_user.id), page_nb - 1);
+            react.message.edit(inv_embed);
         }
     }
 });

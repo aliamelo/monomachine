@@ -56,20 +56,21 @@ function get_inventory(user, guild_memb, page_nb)
 {
     var inv = new Discord.RichEmbed();
 
-    var user_inv = inventory[user.id];
-    var length = Object.keys(user_inv).length;
-
-    if (page_nb < 0)
-        page_nb = Math.floor(length / 15);
-    else if (page_nb > Math.floor(length / 15))
-        page_nb = 0;
-
-    var max_page = Math.floor(length / 15);
-    if (max_page > 0)
-        inv.setFooter(`Page ${page_nb + 1} / ${max_page + 1}`);
-
     if (inventory.hasOwnProperty(user.id))
     {
+        var user_inv = inventory[user.id];
+        var length = Object.keys(user_inv).length;
+
+        if (page_nb < 0)
+            page_nb = Math.floor(length / 15);
+        else if (page_nb > Math.floor(length / 15))
+            page_nb = 0;
+
+        var footer = "";
+        var max_page = Math.floor(length / 15);
+        if (max_page > 0)
+            inv.setFooter(`Page ${page_nb + 1} / ${max_page + 1}`);
+
         var inv_array = Object.entries(user_inv);
         var inv_str = "";
         for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)
