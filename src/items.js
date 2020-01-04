@@ -4,11 +4,17 @@ const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 
 function get_items_embed(bot, page_nb)
 {
+    var length = item_list.length;
+    if (page_nb < 0)
+        page_nb = Math.round(length / 2) - 1;
+    else if (page_nb >= Math.round(length / 2))
+        page_nb = 0;
+
     var inv = new Discord.RichEmbed();
 
     inv.setAuthor("Monomachine items", bot.avatarURL);
     //inv.setColor(guild_member.displayColor);
-    inv.setFooter(`Page ${page_nb + 1} / ${Math.round(item_list.length / 2)}`);
+    inv.setFooter(`Page ${page_nb + 1} / ${Math.round(length / 2)}`);
 
     var items = "";
     for (var i = page_nb * 2; i < item_list.length
