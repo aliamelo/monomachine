@@ -4,63 +4,80 @@ const fs = require("fs");
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
 
+function is_next_day(date)
+{
+    var d = new Date();
+    var saved = new Date(date);
+
+    return (d.getDate() > saved.getDate()) || (d.getMonth() > saved.getMonth())
+        || (d.getYear() > saved.getYear());
+}
+
 function add_item(id, item)
 {
     if (inventory.hasOwnProperty(id))
     {
-        if (inventory[id].hasOwnProperty(item))
-            inventory[id][item]++;
+        if (inventory[id].items.hasOwnProperty(item))
+            inventory[id].items[item]++;
         else
-            inventory[id][item] = 1;
+            inventory[id].items[item] = 1;
     }
 
     else
     {
-        var new_obj = { [item]: 1 };
+        var new_obj = {"items":{ [item]: 1 }};
         inventory[id] = new_obj;
     }
 
     var ordered = {};
-    Object.keys(inventory[id]).sort().forEach(function(key) {
-        ordered[key] = inventory[id][key];
+    Object.keys(inventory[id].items).sort().forEach(function(key) {
+        ordered[key] = inventory[id].items[key];
     });
 
-    inventory[id] = ordered;
+    inventory[id].items = ordered;
+    inventory[id].date = Date.now();
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
 
 function draw_command(msg)
 {
+    if (inventory.hasOwnProperty(msg.author.id)
+        && !is_next_day(inventory[msg.author.id].date))
+    {
+        msg.channel.send("Reviens demain !");
+        return;
+    }
+
     var nb_items = item_list.length;
     var index = Math.floor(Math.random() * nb_items);
 
     msg.channel.send(`**${msg.member.displayName}**, `
         + `you got **${item_list[index]}**!`);
 
-    add_item(msg.member.id, item_list[index]);
+    add_item(msg.author.id, item_list[index]);
 }
 
 function set_item(id, item, nb)
 {
     if (nb <= 0)
-        delete(inventory[id][item]);
+        delete(inventory[id].items[item]);
     else
     {
         if (inventory.hasOwnProperty(id))
-            inventory[id][item] = nb;
+            inventory[id].items[item] = nb;
         else
         {
-            var new_obj = { [item]: nb };
+            var new_obj = {"items":{ [item]: nb }};
             inventory[id] = new_obj;
         }
     }
 
     var ordered = {};
-    Object.keys(inventory[id]).sort().forEach(function(key) {
-        ordered[key] = inventory[id][key];
+    Object.keys(inventory[id].items).sort().forEach(function(key) {
+        ordered[key] = inventory[id].items[key];
     });
 
-    inventory[id] = ordered;
+    inventory[id].items = ordered;
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
 
@@ -70,7 +87,7 @@ function get_inventory(user, guild_memb, page_nb)
 
     if (inventory.hasOwnProperty(user.id))
     {
-        var user_inv = inventory[user.id];
+        var user_inv = inventory[user.id].items;
         var length = Object.keys(user_inv).length;
 
         if (page_nb < 0)
