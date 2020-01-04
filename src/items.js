@@ -1,19 +1,25 @@
+const Discord = require("../dependencies/node_modules/discord.js");
 const fs = require("fs");
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 
-function display(channel)
+function get_items_embed(bot, page_nb)
 {
-    var items_str = "";
+    var inv = new Discord.RichEmbed();
 
-    for (var item in item_list)
+    inv.setAuthor("Monomachine items", bot.avatarURL);
+    //inv.setColor(guild_member.displayColor);
+    inv.setFooter(`Page ${page_nb + 1} / ${Math.round(item_list.length / 2)}`);
+
+    var items = "";
+    for (var i = page_nb * 2; i < item_list.length
+        && i < (page_nb + 1) * 2; i++)
     {
-        if (item != 0)
-            items_str += ", ";
-
-        items_str += item_list[item];
+        items += item_list[i] + '\n';
     }
 
-    channel.send(items_str);
+    inv.addField("** **", items);
+
+    return inv;
 }
 
 function add_items(argc, argv, channel)
@@ -58,7 +64,7 @@ function delete_items(argc, argv, channel)
 }
 
 module.exports = {
-    display: display,
+    get_items_embed: get_items_embed,
     add_items: add_items,
     delete_items: delete_items
 }
