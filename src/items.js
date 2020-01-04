@@ -6,22 +6,22 @@ function get_items_embed(bot, page_nb)
 {
     var length = item_list.length;
     if (page_nb < 0)
-        page_nb = Math.round(length / 2) - 1;
-    else if (page_nb >= Math.round(length / 2))
+        page_nb = Math.round(length / 15) - 1;
+    else if (page_nb >= Math.round(length / 15))
         page_nb = 0;
 
     var inv = new Discord.RichEmbed();
 
     inv.setAuthor("Monomachine items", bot.avatarURL);
     //inv.setColor(guild_member.displayColor);
-    inv.setFooter(`Page ${page_nb + 1} / ${Math.round(length / 2)}`);
+
+    var max_page = Math.round(length / 15);
+    if (max_page > 0)
+        inv.setFooter(`Page ${page_nb + 1} / ${max_page}`);
 
     var items = "";
-    for (var i = page_nb * 2; i < item_list.length
-        && i < (page_nb + 1) * 2; i++)
-    {
+    for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)
         items += item_list[i] + '\n';
-    }
 
     inv.addField("** **", items);
 
