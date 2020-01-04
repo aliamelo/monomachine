@@ -94,10 +94,29 @@ client.on("message", msg => {
         help_funcs.help_message(client.user, msg.channel.members.get(ids.bot),
             msg.channel);
 
-    else if (msg.content == "-inventory" || msg.content == "-inv")
+    else if (msg.content.startsWith("-inventory")
+        || msg.content.startsWith("-inv"))
     {
-        var inv_embed = draw_funcs.get_inventory(msg.author,
-            msg.channel.members.get(msg.author.id), 0);
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+        var user;
+
+        if (argc >= 2)
+        {
+            if (!argv[1].startsWith("<@!") || argc >= 3)
+            {
+                msg.channel.send("`inv: usage: -inv|inventory [@user]`");
+                return;
+            }
+
+            user = msg.mentions.users.first();
+        }
+
+        else
+            user = msg.author;
+
+        var inv_embed = draw_funcs.get_inventory(user,
+            msg.channel.members.get(user.id), 0);
         var inv_promise = msg.channel.send(inv_embed);
 
         inv_user = msg.author;
