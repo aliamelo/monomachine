@@ -49,8 +49,33 @@ function get_birthday_name(name, channel)
     channel.send(`**${name}** n'a pas d'anniversaire enregistré !`);
 }
 
+function get_birthday_date(day, month, channel)
+{
+    var date_str = `${day} ${month}`;
+
+    if (!bdays.hasOwnProperty(date_str))
+        channel.send("Personne ne fête son anniversaire ce jour.");
+    else
+    {
+        var to_send = "";
+        for (var i = 0; i < bdays[date_str].length; i++)
+        {
+            if (i && i == bdays[date_str].length - 1)
+                to_send += " et ";
+            else if (i)
+                to_send += ", ";
+
+            to_send += `**${bdays[date_str][i]}**`;
+        }
+
+        channel.send(`Le **${day}/${month}** c'est l'anniversaire de `
+            + to_send);
+    }
+}
+
 module.exports = {
     add_birthday: add_birthday,
     del_birthday: del_birthday,
-    get_birthday_name: get_birthday_name
+    get_birthday_name: get_birthday_name,
+    get_birthday_date: get_birthday_date
 }

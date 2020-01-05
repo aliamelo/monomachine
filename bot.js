@@ -169,7 +169,10 @@ client.on("message", msg => {
             }
 
             if (argv[1] == "add")
+            {
                 bday_funcs.add_birthday(argv[2], argv[3], argv[4]);
+                msg.channel.send("Birthday added.");
+            }
         }
 
         else if (argv[1] == "delete")
@@ -192,7 +195,7 @@ client.on("message", msg => {
 
             if (argc == 3)
             {
-                if (bday_funcs.del_birthday_name(argv[2]))
+                if (bday_funcs.del_birthday(argv[2]))
                     msg.channel.send(`**${argv[2]}**'s birthday deleted!`);
                 else
                     msg.channel.send(`**${argv[2]}** not found.`);
@@ -209,6 +212,27 @@ client.on("message", msg => {
 
         else if (argc == 2)
             bday_funcs.get_birthday_name(argv[1], msg.channel);
+
+        else if (argc == 3)
+        {
+            if (isNaN(argv[1]) || isNaN(argv[2]))
+            {
+                msg.channel.send("`bday: usage: "
+                    + "-bday / -bday name / -bday day month / "
+                    + "-bday add name day month / -bday delete name`");
+                return;
+            }
+
+            bday_funcs.get_birthday_date(argv[1], argv[2], msg.channel);
+        }
+
+        else
+        {
+            msg.channel.send("`bday: usage: "
+                + "-bday / -bday name / -bday day month / "
+                + "-bday add name day month / -bday delete name`");
+        }
+
     }
 });
 
