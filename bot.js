@@ -292,6 +292,24 @@ client.on("messageReactionAdd", (react, user) => {
             react.message.edit(inv_embed);
         }
     }
+
+    else if (embed.author.name.includes("Les anniversaires"))
+    {
+        if (react.emoji.identifier == "%E2%9E%A1%EF%B8%8F")
+        {
+
+            var bday_embed = bday_funcs.display_bdays(
+                react.message.channel.members.get(ids.bot), page_nb + 1);
+            react.message.edit(bday_embed);
+        }
+
+        else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F")
+        {
+            var bday_embed = bday_funcs.display_bdays(
+                react.message.channel.members.get(ids.bot), page_nb - 1);
+            react.message.edit(bday_embed);
+        }
+    }
 });
 
 client.login(ids.token);
