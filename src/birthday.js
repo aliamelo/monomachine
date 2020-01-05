@@ -3,6 +3,7 @@ const fs = require("fs");
 
 const bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
 
+
 function add_birthday(name, day, month)
 {
     var bday_str = `${day} ${month}`;
@@ -12,7 +13,32 @@ function add_birthday(name, day, month)
     else
         bdays[bday_str] = [name];
 
-    fs.writeFileSync("data/birthday.json", JSON.stringify(bdays));
+    var ordered = {};
+    Object.keys(bdays).sort(function (a, b) {
+        var a_arr = a.split(' ');
+        var b_arr = b.split(' ');
+
+        var a_day = parseInt(a_arr[0]);
+        var a_month = parseInt(a_arr[1]);
+        var b_day = parseInt(b_arr[0]);
+        var b_month = parseInt(b_arr[1]);
+
+        if (a_month < b_month)
+            return -1;
+        else if (a_month == b_month)
+        {
+            if (a_day < b_day)
+                return -1;
+            if (a_day == b_day)
+                return 0;
+            return 1;
+        }
+        return 1;
+    }).forEach(function (key) {
+        ordered[key] = bdays[key];
+    });
+
+    fs.writeFileSync("data/birthday.json", JSON.stringify(ordered));
 }
 
 function del_birthday(name)
