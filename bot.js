@@ -149,7 +149,8 @@ client.on("message", msg => {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[1] == "add" || argv[1] == "delete")
+        //if (argc == 1)
+        if (argv[1] == "add")
         {
             if (msg.author.id != ids.nim && msg.author.id != ids.admin)
             {
@@ -169,6 +170,33 @@ client.on("message", msg => {
 
             if (argv[1] == "add")
                 bday_funcs.add_birthday(argv[2], argv[3], argv[4]);
+        }
+
+        else if (argv[1] == "delete")
+        {
+            if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+            {
+                msg.channel.send("Wait, that's illegal."
+                    + "(seule nimou peut utiliser cette commande)");
+
+                return;
+            }
+
+            if (argc == 2)
+            {
+                msg.channel.send("`bday: usage: "
+                    + "-bday / -bday name / -bday day month / "
+                    + "-bday add name day month / -bday delete name`");
+                return;
+            }
+
+            if (argc == 3)
+            {
+                if (bday_funcs.del_birthday_name(argv[2]))
+                    msg.channel.send(`${argv[2]}'s birthday deleted!`);
+                else
+                    msg.channel.send(`${argv[2]} not found.`);
+            }
         }
     }
 });

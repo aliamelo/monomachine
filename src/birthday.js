@@ -15,14 +15,24 @@ function add_birthday(name, day, month)
     fs.writeFileSync("data/birthday.json", JSON.stringify(bdays));
 }
 
-
-function get_birthday(day, month)
+function del_birthday_name(name)
 {
-    var bday_str = `${day} ${month}`;
-    console.log(bdays[bday_str]);
+    for (var date in bdays)
+    {
+        var index = bdays[date].indexOf(name);
+
+        if (index >= 0)
+        {
+            bdays[date].splice(index, 1);
+            fs.writeFileSync("data/birthday.json", JSON.stringify(bdays));
+            return 1;
+        }
+    }
+
+    return 0;
 }
 
 module.exports = {
-    get_birthday: get_birthday,
-    add_birthday: add_birthday
+    add_birthday: add_birthday,
+    del_birthday_name: del_birthday_name
 }
