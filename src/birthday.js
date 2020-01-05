@@ -32,7 +32,25 @@ function del_birthday(name)
     return 0;
 }
 
+function get_birthday_name(name, channel)
+{
+    for (var date in bdays)
+    {
+        if (bdays[date].includes(name))
+        {
+            var date_arr = date.split(' ');
+            channel.send(`L'anniversaire de **${name}** est le `
+                + `**${date_arr[0]}/${date_arr[1]}**`);
+
+            return;
+        }
+    }
+
+    channel.send(`**${name}** n'a pas d'anniversaire enregistré !`);
+}
+
 module.exports = {
     add_birthday: add_birthday,
-    del_birthday: del_birthday
+    del_birthday: del_birthday,
+    get_birthday_name: get_birthday_name
 }

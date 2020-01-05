@@ -193,9 +193,9 @@ client.on("message", msg => {
             if (argc == 3)
             {
                 if (bday_funcs.del_birthday_name(argv[2]))
-                    msg.channel.send(`${argv[2]}'s birthday deleted!`);
+                    msg.channel.send(`**${argv[2]}**'s birthday deleted!`);
                 else
-                    msg.channel.send(`${argv[2]} not found.`);
+                    msg.channel.send(`**${argv[2]}** not found.`);
             }
 
             else
@@ -206,6 +206,9 @@ client.on("message", msg => {
                 return;
             }
         }
+
+        else if (argc == 2)
+            bday_funcs.get_birthday_name(argv[1], msg.channel);
     }
 });
 
