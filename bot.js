@@ -197,6 +197,14 @@ client.on("message", msg => {
                 else
                     msg.channel.send(`${argv[2]} not found.`);
             }
+
+            else
+            {
+                msg.channel.send("`bday: usage: "
+                    + "-bday / -bday name / -bday day month / "
+                    + "-bday add name day month / -bday delete name`");
+                return;
+            }
         }
     }
 });

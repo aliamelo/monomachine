@@ -15,7 +15,7 @@ function add_birthday(name, day, month)
     fs.writeFileSync("data/birthday.json", JSON.stringify(bdays));
 }
 
-function del_birthday_name(name)
+function del_birthday(name)
 {
     for (var date in bdays)
     {
@@ -34,5 +34,5 @@ function del_birthday_name(name)
 
 module.exports = {
     add_birthday: add_birthday,
-    del_birthday_name: del_birthday_name
+    del_birthday: del_birthday
 }
