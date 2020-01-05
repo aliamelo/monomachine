@@ -73,9 +73,48 @@ function get_birthday_date(day, month, channel)
     }
 }
 
+function display_bdays(bot_guild_memb, page_nb)
+{
+    var bday_list = new Discord.RichEmbed();
+
+    var length = Object.keys(bdays).length;
+
+    if (page_nb < 0)
+        page_nb = Math.floor(length / 15);
+    else if (page_nb > Math.floor(length / 15))
+        page_nb = 0;
+
+    var footer = "";
+    var max_page = Math.floor(length / 15);
+    if (max_page > 0)
+        bday_list.setFooter(`Page ${page_nb + 1} / ${max_page + 1}`);
+
+    for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)
+    {
+        var date = Object.keys(bdays)[i];
+        var names_str = "";
+
+        for (var j = 0; j < bdays[date].length; j++)
+        {
+            if (j)
+                names_str += ", ";
+            names_str += bdays[date][j];
+        }
+
+        var date_arr = date.split(' ');
+        bday_list.addField(`${date_arr[0]}/${date_arr[1]}`, `${names_str}`);
+    }
+
+    bday_list.setAuthor("Les anniversaires", bot_guild_memb.user.avatarURL);
+    bday_list.setColor(bot_guild_memb.displayColor);
+
+    return bday_list;
+}
+
 module.exports = {
     add_birthday: add_birthday,
     del_birthday: del_birthday,
     get_birthday_name: get_birthday_name,
-    get_birthday_date: get_birthday_date
+    get_birthday_date: get_birthday_date,
+    display_bdays: display_bdays
 }

@@ -149,8 +149,23 @@ client.on("message", msg => {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        //if (argc == 1)
-        if (argv[1] == "add")
+        if (argc == 1)
+        {
+            var bdays_list =
+                bday_funcs.display_bdays(msg.channel.members.get(ids.bot), 0);
+
+            var bday_promise = msg.channel.send(bdays_list);
+
+            if (bdays_list.footer)
+            {
+                bday_promise.then(async function(sent) {
+                    await sent.react("%E2%AC%85%EF%B8%8F");
+                    await sent.react("%E2%9E%A1%EF%B8%8F");
+                });
+            }
+        }
+
+        else if (argv[1] == "add")
         {
             if (msg.author.id != ids.nim && msg.author.id != ids.admin)
             {
