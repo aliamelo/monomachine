@@ -7,11 +7,9 @@ const ids = JSON.parse(fs.readFileSync("data/ids.json"));
 const item_funcs = require("./src/items.js");
 const draw_funcs = require("./src/draw.js");
 const help_funcs = require("./src/help.js");
+const bday_funcs = require("./src/birthday.js");
 
 client.on("ready", () => {
-
-    client.user.setActivity("souhaite votre mort.");
-
     console.log("Monomachine started");
 });
 
@@ -143,6 +141,34 @@ client.on("message", msg => {
                 await sent.react("%E2%AC%85%EF%B8%8F");
                 await sent.react("%E2%9E%A1%EF%B8%8F");
             });
+        }
+    }
+
+    else if (msg.content.startsWith("-bday"))
+    {
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        if (argv[1] == "add" || argv[1] == "delete")
+        {
+            if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+            {
+                msg.channel.send("Wait, that's illegal."
+                    + "(seule nimou peut utiliser cette commande)");
+
+                return;
+            }
+
+            if (argc != 5 || isNaN(argv[3]) || isNaN(argv[4]))
+            {
+                msg.channel.send("`bday: usage: "
+                    + "-bday / -bday name / -bday day month / "
+                    + "-bday add name day month / -bday delete name`");
+                return;
+            }
+
+            if (argv[1] == "add")
+                bday_funcs.add_birthday(argv[2], argv[3], argv[4]);
         }
     }
 });
