@@ -179,17 +179,18 @@ client.on("message", msg => {
                 return;
             }
 
-            if (argc != 5 || isNaN(argv[3]) || isNaN(argv[4]))
+            if (isNaN(argv[2]) || isNaN(argv[3]))
             {
                 msg.channel.send("`bday: usage: "
                     + "-bday / -bday name / -bday day month / "
-                    + "-bday add name day month / -bday delete name`");
+                    + "-bday add day month name / -bday delete name`");
                 return;
             }
 
             if (argv[1] == "add")
             {
-                bday_funcs.add_birthday(argv[2], argv[3], argv[4]);
+                var name = msg.content.replace(/[a-z\-\ ]* [0-9\ ]*/, "");
+                bday_funcs.add_birthday(name, argv[2], argv[3]);
                 msg.channel.send("Birthday added.");
             }
         }
@@ -212,47 +213,26 @@ client.on("message", msg => {
                 return;
             }
 
-            if (argc == 3)
-            {
-                if (bday_funcs.del_birthday(argv[2]))
-                    msg.channel.send(`**${argv[2]}**'s birthday deleted!`);
-                else
-                    msg.channel.send(`**${argv[2]}** not found.`);
-            }
-
             else
             {
-                msg.channel.send("`bday: usage: "
-                    + "-bday / -bday name / -bday day month / "
-                    + "-bday add name day month / -bday delete name`");
-                return;
+                var name = msg.content.replace("-bday delete ", "");
+                if (bday_funcs.del_birthday(name))
+                    msg.channel.send(`**${name}**'s birthday deleted!`);
+                else
+                    msg.channel.send(`**${name}** not found.`);
             }
         }
 
-        else if (argc == 2)
-            bday_funcs.get_birthday_name(argv[1], msg.channel, 0);
-
-        else if (argc == 3)
+        else if (argc == 3 && !isNaN(argv[1]) && !isNaN(argv[2]))
         {
-            if (isNaN(argv[1]) || isNaN(argv[2]))
-            {
-                msg.channel.send("`bday: usage: "
-                    + "-bday / -bday name / -bday day month / "
-                    + "-bday add name day month / -bday delete name`");
-                return;
-            }
-
-            channel.send(bday_funcs.get_birthday_date(argv[1], argv[2],
-                msg.channel));
+            msg.channel.send(bday_funcs.get_birthday_date(argv[1], argv[2], 0));
         }
 
         else
         {
-            msg.channel.send("`bday: usage: "
-                + "-bday / -bday name / -bday day month / "
-                + "-bday add name day month / -bday delete name`");
+            var name = msg.content.replace("-bday ", "");
+            bday_funcs.get_birthday_name(name, msg.channel);
         }
-
     }
 
     else if (msg.content.startsWith("-quote"))
