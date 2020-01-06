@@ -25,7 +25,22 @@ function del_quote(quote)
     return 0;
 }
 
+function display_quotes()
+{
+    var str = "";
+
+    for (var i in quotes)
+    {
+        if (i != 0)
+            str += "\n";
+        str += quotes[i];
+    }
+
+    return str;
+}
+
 module.exports = {
     add_quote: add_quote,
-    del_quote: del_quote
+    del_quote: del_quote,
+    display_quotes: display_quotes
 }

@@ -17,8 +17,8 @@ client.on("ready", () => {
 var inv_user;
 
 client.on("message", msg => {
-    /*if (msg.channel.id != ids.draw_chan)
-        return;*/
+    if (msg.channel.id != ids.draw_chan)
+        return;
 
     if (msg.content.startsWith("-item"))
     {
@@ -248,9 +248,10 @@ client.on("message", msg => {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        //if (argc == 1)
+        if (argc == 1)
+            msg.channel.send(quote_funcs.display_quotes());
 
-        if (argv[1] == "add")
+        else if (argv[1] == "add")
         {
             var str = msg.content.replace("-quote add ", "");
 
