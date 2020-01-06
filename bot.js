@@ -252,7 +252,7 @@ client.on("message", msg => {
 
         if (argv[1] == "add")
         {
-            var str = msg.content.replace("-quote add", "");
+            var str = msg.content.replace("-quote add ", "");
 
             if (quote_funcs.add_quote(str))
                 msg.channel.send("[item] not found");
@@ -260,6 +260,18 @@ client.on("message", msg => {
                 msg.channel.send("Quote added!");
         }
 
+        else if (argv[1] == "delete")
+        {
+            var str = msg.content.replace("-quote delete ", "");
+
+            if (quote_funcs.del_quote(str))
+                msg.channel.send("Quote not found.");
+            else
+                msg.channel.send("Quote deleted.");
+        }
+
+        else
+            msg.channel.send("`quote: usage: -quote [add|delete msg]`");
     }
 });
 
