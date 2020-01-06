@@ -7,6 +7,9 @@ function add_quote(quote)
     if (!quote.includes("[item]"))
         return 1;
 
+    if (quotes.includes(quote))
+        return 2;
+
     quotes.push(quote);
     fs.writeFileSync("data/quotes.json", JSON.stringify(quotes));
 

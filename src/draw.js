@@ -4,6 +4,7 @@ const fs = require("fs");
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
 const quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
+const ids = JSON.parse(fs.readFileSync("data/ids.json"));
 
 function is_next_day(date)
 {
@@ -31,7 +32,14 @@ function add_item(id, item)
     }
 
     var ordered = {};
-    Object.keys(inventory[id].items).sort().forEach(function(key) {
+    Object.keys(inventory[id].items).sort(function (a, b) {
+        var a = a.replace(/^(la|le|une|l'|un|des|du) /, "");
+        var b = b.replace(/^(la|le|une|l'|un|des|du) /, "");
+
+        if (stra > strb)
+            return 1;
+        return -1;
+    }).forEach(function(key) {
         ordered[key] = inventory[id].items[key];
     });
 
@@ -40,8 +48,25 @@ function add_item(id, item)
     fs.writeFileSync("data/inventory.json", JSON.stringify(inventory));
 }
 
+function send_tirage(msg, index, q_index)
+{
+    var to_send = quotes[q_index].replace("[item]", `**${item_list[index]}**`);
+    to_send = to_send.replace("[user]", `**${msg.member.displayName}**`);
+
+    msg.channel.send(to_send);
+}
+
 function draw_command(msg)
 {
+    var index = Math.floor(Math.random() * item_list.length);
+    var q_index = Math.floor(Math.random() * quotes.length);
+
+    if (msg.channel.id == ids.bot_chan)
+    {
+        send_tirage(msg, index, q_index);
+        return;
+    }
+
     if (inventory.hasOwnProperty(msg.author.id)
         && !is_next_day(inventory[msg.author.id].date))
     {
@@ -49,13 +74,7 @@ function draw_command(msg)
         return;
     }
 
-    var index = Math.floor(Math.random() * item_list.length);
-    var q_index = Math.floor(Math.random() * quotes.length);
-
-    var to_send = quotes[q_index].replace("[item]", `**${item_list[index]}**`);
-    to_send = to_send.replace("[user]", `**${msg.member.displayName}**`);
-
-    msg.channel.send(to_send);
+    send_tirage(msg, index, q_index);
 
     add_item(msg.author.id, item_list[index]);
 }
@@ -76,7 +95,13 @@ function set_item(id, item, nb)
     }
 
     var ordered = {};
-    Object.keys(inventory[id].items).sort().forEach(function(key) {
+    Object.keys(inventory[id].items).sort(function (a, b) {
+        var a = a.replace(/^(la|le|une|l'|un|des|du) /, "");
+        var b = b.replace(/^(la|le|une|l'|un|des|du) /, "");
+        if (stra > strb)
+            return 1;
+        return -1;
+    }).forEach(function(key) {
         ordered[key] = inventory[id].items[key];
     });
 

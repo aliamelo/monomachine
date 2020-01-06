@@ -17,8 +17,8 @@ client.on("ready", () => {
 var inv_user;
 
 client.on("message", msg => {
-    if (msg.channel.id != ids.draw_chan)
-        return;
+    /*if (msg.channel.id != ids.draw_chan)
+        return;*/
 
     if (msg.content.startsWith("-items"))
     {
@@ -27,14 +27,6 @@ client.on("message", msg => {
 
         if (argv[0] != "-items")
             return;
-
-        if (msg.author.id != ids.nim && msg.author.id != ids.admin)
-        {
-            msg.channel.send("Wait, that's illegal ! "
-                + "(seule nimou peut utiliser cette commande)");
-
-            return;
-        }
 
         if (argc == 1)
         {
@@ -53,6 +45,14 @@ client.on("message", msg => {
 
         else if (argv[1] == "add")
         {
+
+            if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+            {
+                msg.channel.send("Wait, that's illegal ! "
+                    + "(seule nimou peut utiliser cette commande)");
+
+                return;
+            }
             if (argc <= 2)
             {
                 msg.channel.send("`items: usage: -items"
@@ -70,6 +70,14 @@ client.on("message", msg => {
 
         else if (argv[1] == "delete")
         {
+
+            if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+            {
+                msg.channel.send("Wait, that's illegal ! "
+                    + "(seule nimou peut utiliser cette commande)");
+
+                return;
+            }
             if (argc <= 2)
             {
                 msg.channel.send("`items: usage: -items"
@@ -280,8 +288,11 @@ client.on("message", msg => {
         {
             var str = msg.content.replace("-quote add ", "");
 
-            if (quote_funcs.add_quote(str))
+            var ret = quote_funcs.add_quote(str);
+            if (ret == 1)
                 msg.channel.send("[item] not found");
+            else if (ret == 2)
+                msg.channel.send("This quote exists already.");
             else
                 msg.channel.send("Quote added!");
         }
@@ -302,7 +313,7 @@ client.on("message", msg => {
 });
 
 client.on("messageReactionAdd", (react, user) => {
-    if (user.bot)
+    if (user.bot || react.message.author.id != ids.bot)
         return;
 
     var embed = react.message.embeds[0];

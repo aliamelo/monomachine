@@ -36,7 +36,14 @@ function add_items(item)
     else
         item_list.push(item);
 
-    item_list.sort();
+    item_list.sort(function (a, b) {
+        var stra = a.replace(/^(la|le|une|l'|un|des|du) /, "");
+        var strb = b.replace(/^(la|le|une|l'|un|des|du) /, "");
+
+        if (stra > strb)
+            return 1;
+        return -1;
+    });
     fs.writeFileSync("data/items.json", JSON.stringify(item_list));
 
     return 0;
