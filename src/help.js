@@ -18,12 +18,12 @@ function help_message(bot_user, bot_guild_memb, channel)
         + "`user` must be a mention.\n`usage: -set user nb item`");
     help.addField("-bday", "Usages:\n-bday displays bdays of all registered "
         + "chars.\n-bday name / -bday day month. Shows bday of a "
-        + "specific character or for a specific day.\n -bday add name day "
-        + "month (admin command). Add a birthday to the list.\n"
+        + "specific character or for a specific day.\n -bday add day "
+        + "month name(admin command). Add a birthday to the list.\n"
         + "-bday delete name (admin command). Deletes the birthday of a "
         + "character");
     help.addField("-quote (admin)", "-quote add message / -quote delete "
-        + "message\nMessage must contain at least [item] and if"
+        + "message\nMessage must contain at least [item] and if "
         + "needed, [user]");
     channel.send(help);
 }

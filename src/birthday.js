@@ -1,11 +1,10 @@
 const Discord = require("../dependencies/node_modules/discord.js");
 const fs = require("fs");
 
-const bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
-
-
 function add_birthday(name, day, month)
 {
+    var bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
+
     var bday_str = `${day} ${month}`;
 
     if (bdays.hasOwnProperty(bday_str))
@@ -43,6 +42,8 @@ function add_birthday(name, day, month)
 
 function del_birthday(name)
 {
+    var bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
+
     for (var date in bdays)
     {
         var index = bdays[date].indexOf(name);
@@ -64,6 +65,8 @@ function del_birthday(name)
 
 function get_birthday_name(name, channel)
 {
+    var bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
+
     for (var date in bdays)
     {
         if (bdays[date].includes(name))
@@ -81,6 +84,8 @@ function get_birthday_name(name, channel)
 
 function get_birthday_date(day, month, announce)
 {
+    var bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
+
     var date_str = `${day} ${month}`;
 
     if (!bdays.hasOwnProperty(date_str))
@@ -106,6 +111,8 @@ function get_birthday_date(day, month, announce)
 
 function display_bdays(bot_guild_memb, page_nb)
 {
+    var bdays = JSON.parse(fs.readFileSync("data/birthday.json"));
+
     var bday_list = new Discord.RichEmbed();
 
     var length = Object.keys(bdays).length;

@@ -1,10 +1,10 @@
 const Discord = require("../dependencies/node_modules/discord.js");
 const fs = require("fs");
 
-const item_list = JSON.parse(fs.readFileSync("data/items.json"));
-
 function get_item_list(bot_user, bot_guild_memb, page_nb)
 {
+    var item_list = JSON.parse(fs.readFileSync("data/items.json"));
+
     var items = new Discord.RichEmbed();
 
     var length = item_list.length;
@@ -31,6 +31,8 @@ function get_item_list(bot_user, bot_guild_memb, page_nb)
 
 function add_items(item)
 {
+    var item_list = JSON.parse(fs.readFileSync("data/items.json"));
+
     if (item_list.includes(item))
         return 1;
     else
@@ -51,6 +53,8 @@ function add_items(item)
 
 function delete_items(item, channel)
 {
+    var item_list = JSON.parse(fs.readFileSync("data/items.json"));
+
     var index = item_list.indexOf(item);
 
     if (index < 0)

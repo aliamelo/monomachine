@@ -1,9 +1,6 @@
 const Discord = require("../dependencies/node_modules/discord.js");
 const fs = require("fs");
 
-const item_list = JSON.parse(fs.readFileSync("data/items.json"));
-const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
-const quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
 const ids = JSON.parse(fs.readFileSync("data/ids.json"));
 
 function is_next_day(date)
@@ -17,6 +14,8 @@ function is_next_day(date)
 
 function add_item(id, item)
 {
+    var inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
+
     if (inventory.hasOwnProperty(id))
     {
         if (inventory[id].items.hasOwnProperty(item))
@@ -50,6 +49,9 @@ function add_item(id, item)
 
 function send_tirage(msg, index, q_index)
 {
+    var item_list = JSON.parse(fs.readFileSync("data/items.json"));
+    var quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
+
     var to_send = quotes[q_index].replace("[item]", `**${item_list[index]}**`);
     to_send = to_send.replace("[user]", `**${msg.member.displayName}**`);
 
@@ -58,10 +60,14 @@ function send_tirage(msg, index, q_index)
 
 function draw_command(msg)
 {
+    var item_list = JSON.parse(fs.readFileSync("data/items.json"));
+    var inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
+    var quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
+
     var index = Math.floor(Math.random() * item_list.length);
     var q_index = Math.floor(Math.random() * quotes.length);
 
-    if (msg.channel.id == ids.bot_chan)
+    if (msg.channel.id != ids.draw_chan)
     {
         send_tirage(msg, index, q_index);
         return;
@@ -81,6 +87,8 @@ function draw_command(msg)
 
 function set_item(id, item, nb)
 {
+    var inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
+
     if (nb <= 0)
         delete(inventory[id].items[item]);
     else
@@ -111,6 +119,7 @@ function set_item(id, item, nb)
 
 function get_inventory(user, guild_memb, page_nb)
 {
+    var inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
     var inv = new Discord.RichEmbed();
 
     if (inventory.hasOwnProperty(user.id))

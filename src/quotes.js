@@ -1,9 +1,9 @@
 const fs = require("fs");
 
-const quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
-
 function add_quote(quote)
 {
+    var quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
+
     if (!quote.includes("[item]"))
         return 1;
 
@@ -18,6 +18,8 @@ function add_quote(quote)
 
 function del_quote(quote)
 {
+    var quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
+
     if (!quotes.includes(quote))
         return 1;
 
@@ -30,6 +32,8 @@ function del_quote(quote)
 
 function display_quotes()
 {
+    var quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
+
     var str = "";
 
     for (var i in quotes)
