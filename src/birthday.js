@@ -49,7 +49,11 @@ function del_birthday(name)
 
         if (index >= 0)
         {
-            bdays[date].splice(index, 1);
+            if (bdays[date].length == 1)
+                delete(bdays[date]);
+            else
+                bdays[date].splice(index, 1);
+
             fs.writeFileSync("data/birthday.json", JSON.stringify(bdays));
             return 1;
         }
