@@ -17,8 +17,8 @@ client.on("ready", () => {
 var inv_user;
 
 client.on("message", msg => {
-    /*if (msg.channel.id != ids.draw_chan)
-        return;*/
+    if (msg.channel.id != ids.draw_chan)
+        return;
 
     if (msg.content.startsWith("-items"))
     {
