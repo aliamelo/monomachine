@@ -108,16 +108,17 @@ client.on("message", msg => {
             return;
         }
 
-        if (argc < 4 || isNaN(argv[3]) || !argv[1].startsWith("<@!"))
+        if (argc < 4 || isNaN(argv[2]) || !argv[1].startsWith("<@!"))
         {
-            msg.channel.send("`set: usage: -set user item nb`");
+            msg.channel.send("`set: usage: -set user nb item`");
             return;
         }
 
         else
         {
-            draw_funcs.set_item(msg.mentions.users.first().id,
-                argv[2], parseInt(argv[3]));
+            var str = msg.content.replace(/[a-zA-Z<@! \-0-9]*> [\-0-9]* /, "");
+            draw_funcs.set_item(msg.mentions.users.first().id, str,
+                parseInt(argv[2]));
             msg.channel.send("Done.");
         }
     }
