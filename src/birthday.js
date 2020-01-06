@@ -75,12 +75,12 @@ function get_birthday_name(name, channel)
     channel.send(`**${name}** n'a pas d'anniversaire enregistré !`);
 }
 
-function get_birthday_date(day, month, channel)
+function get_birthday_date(day, month, announce)
 {
     var date_str = `${day} ${month}`;
 
     if (!bdays.hasOwnProperty(date_str))
-        channel.send("Personne ne fête son anniversaire ce jour.");
+        return "Personne ne fête son anniversaire ce jour.";
     else
     {
         var to_send = "";
@@ -94,8 +94,9 @@ function get_birthday_date(day, month, channel)
             to_send += `**${bdays[date_str][i]}**`;
         }
 
-        channel.send(`Le **${day}/${month}** c'est l'anniversaire de `
-            + to_send);
+        if (announce)
+            return `Aujourd'hui c'est l'anniversaire de ` + to_send + " !";
+        return `Le **${day}/${month}** c'est l'anniversaire de ` + to_send;
     }
 }
 

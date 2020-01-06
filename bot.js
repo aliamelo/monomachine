@@ -16,6 +16,9 @@ client.on("ready", () => {
 var inv_user;
 
 client.on("message", msg => {
+    /*if (msg.channel.id != ids.draw_chan)
+        return;*/
+
     if (msg.content.startsWith("-item"))
     {
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
@@ -226,7 +229,7 @@ client.on("message", msg => {
         }
 
         else if (argc == 2)
-            bday_funcs.get_birthday_name(argv[1], msg.channel);
+            bday_funcs.get_birthday_name(argv[1], msg.channel, 0);
 
         else if (argc == 3)
         {
@@ -238,7 +241,8 @@ client.on("message", msg => {
                 return;
             }
 
-            bday_funcs.get_birthday_date(argv[1], argv[2], msg.channel);
+            channel.send(bday_funcs.get_birthday_date(argv[1], argv[2],
+                msg.channel));
         }
 
         else
@@ -311,5 +315,19 @@ client.on("messageReactionAdd", (react, user) => {
         }
     }
 });
+
+setInterval(announce_birthday, 60000);
+
+function announce_birthday()
+{
+    var date = new Date();
+    var day = date.getDate().toString().padStart(2, '0');
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+
+    var channel = client.channels.get(ids.bday_chan);
+
+    if (date.getHours() == 0 && date.getMinutes() == 0)
+        channel.send(bday_funcs.get_birthday_date(day, month, 1));
+}
 
 client.login(ids.token);
