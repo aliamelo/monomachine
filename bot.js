@@ -17,11 +17,17 @@ client.on("ready", () => {
 var inv_user;
 
 client.on("message", msg => {
-    if (msg.channel.id != ids.draw_chan)
-        return;
+    /*if (msg.channel.id != ids.draw_chan)
+        return;*/
 
     if (msg.content.startsWith("-item"))
     {
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        if (argv[0] != "-item")
+            return;
+
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
         {
             msg.channel.send("Wait, that's illegal ! "
@@ -29,9 +35,6 @@ client.on("message", msg => {
 
             return;
         }
-
-        var argv = msg.content.split(' ');
-        var argc = argv.length;
 
         if (argc == 1)
         {
@@ -83,6 +86,12 @@ client.on("message", msg => {
 
     else if (msg.content.startsWith("-set"))
     {
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        if (argv[0] != "-set")
+            return;
+
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
         {
             msg.channel.send("Wait, that's illegal."
@@ -90,9 +99,6 @@ client.on("message", msg => {
 
             return;
         }
-
-        var argv = msg.content.split(' ');
-        var argc = argv.length;
 
         if (argc < 4 || isNaN(argv[3]) || !argv[1].startsWith("<@!"))
         {
@@ -117,6 +123,10 @@ client.on("message", msg => {
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
+
+        if (argv[0] != "-inventory" && argv[0] != "-inv")
+            return;
+
         var user;
 
         if (argc >= 2)
@@ -152,6 +162,9 @@ client.on("message", msg => {
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
+
+        if (argv[0] != "-bday")
+            return;
 
         if (argc == 1)
         {
@@ -237,6 +250,12 @@ client.on("message", msg => {
 
     else if (msg.content.startsWith("-quote"))
     {
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        if (argv[0] != "-quote")
+            return;
+
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
         {
             msg.channel.send("Wait, that's illegal."
@@ -244,9 +263,6 @@ client.on("message", msg => {
 
             return;
         }
-
-        var argv = msg.content.split(' ');
-        var argc = argv.length;
 
         if (argc == 1)
             msg.channel.send(quote_funcs.display_quotes());

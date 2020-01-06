@@ -3,6 +3,7 @@ const fs = require("fs");
 
 const item_list = JSON.parse(fs.readFileSync("data/items.json"));
 const inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
+const quotes = JSON.parse(fs.readFileSync("data/quotes.json"));
 
 function is_next_day(date)
 {
@@ -48,11 +49,13 @@ function draw_command(msg)
         return;
     }
 
-    var nb_items = item_list.length;
-    var index = Math.floor(Math.random() * nb_items);
+    var index = Math.floor(Math.random() * item_list.length);
+    var q_index = Math.floor(Math.random() * quotes.length);
 
-    msg.channel.send(`**${msg.member.displayName}**, `
-        + `you got **${item_list[index]}**!`);
+    var to_send = quotes[q_index].replace("[item]", `**${item_list[index]}**`);
+    to_send = to_send.replace("[user]", `**${msg.member.displayName}**`);
+
+    msg.channel.send(to_send);
 
     add_item(msg.author.id, item_list[index]);
 }
