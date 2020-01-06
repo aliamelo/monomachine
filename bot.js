@@ -62,7 +62,7 @@ client.on("message", msg => {
             }
 
             var str = msg.content.replace("-items add ", "");
-            if (item_funcs.add_items(str, msg.channel))
+            if (item_funcs.add_items(str))
                 msg.channel.send(`**${str}** already exists.`);
             else
                 msg.channel.send("Done.");
@@ -78,7 +78,11 @@ client.on("message", msg => {
                 return;
             }
 
-            item_funcs.delete_items(argc, argv, msg.channel);
+            var str = msg.content.replace("-items delete ", "");
+            if (item_funcs.delete_items(str))
+                msg.channel.send(`**${str}** not found.`);
+            else
+                msg.channel.send("Done.");
         }
 
         else

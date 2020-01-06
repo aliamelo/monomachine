@@ -29,7 +29,7 @@ function get_item_list(bot_user, bot_guild_memb, page_nb)
     return items;
 }
 
-function add_items(item, channel)
+function add_items(item)
 {
     if (item_list.includes(item))
         return 1;
@@ -42,25 +42,18 @@ function add_items(item, channel)
     return 0;
 }
 
-function delete_items(argc, argv, channel)
+function delete_items(item, channel)
 {
-    var nb_items = 0;
-    for (var i = 2; i < argc; i++)
-    {
-        var index = item_list.indexOf(argv[i]);
+    var index = item_list.indexOf(item);
 
-        if (index < 0)
-            channel.send(`**${argv[i]}** doesn't exist.`);
-        else
-        {
-            item_list.splice(index, 1);
-            nb_items++;
-        }
-    }
+    if (index < 0)
+        return 1;
+    else
+        item_list.splice(index, 1);
 
     fs.writeFileSync("data/items.json", JSON.stringify(item_list));
 
-    channel.send(`Finished deleting **${nb_items}** items.`);
+    return 0;
 }
 
 module.exports = {
