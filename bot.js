@@ -8,6 +8,7 @@ const item_funcs = require("./src/items.js");
 const draw_funcs = require("./src/draw.js");
 const help_funcs = require("./src/help.js");
 const bday_funcs = require("./src/birthday.js");
+const quote_funcs = require("./src/quotes.js");
 
 client.on("ready", () => {
     console.log("Monomachine started");
@@ -250,6 +251,33 @@ client.on("message", msg => {
             msg.channel.send("`bday: usage: "
                 + "-bday / -bday name / -bday day month / "
                 + "-bday add name day month / -bday delete name`");
+        }
+
+    }
+
+    else if (msg.content.startsWith("-quote"))
+    {
+        if (msg.author.id != ids.nim && msg.author.id != ids.admin)
+        {
+            msg.channel.send("Wait, that's illegal."
+                + "(seule nimou peut utiliser cette commande)");
+
+            return;
+        }
+
+        var argv = msg.content.split(' ');
+        var argc = argv.length;
+
+        //if (argc == 1)
+
+        if (argv[1] == "add")
+        {
+            var str = msg.content.replace("-quote add", "");
+
+            if (quote_funcs.add_quote(str))
+                msg.channel.send("[item] not found");
+            else
+                msg.channel.send("Quote added!");
         }
 
     }
