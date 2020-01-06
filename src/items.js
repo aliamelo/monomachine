@@ -29,24 +29,17 @@ function get_item_list(bot_user, bot_guild_memb, page_nb)
     return items;
 }
 
-function add_items(argc, argv, channel)
+function add_items(item, channel)
 {
-    var nb_items = 0;
-    for (var i = 2; i < argc; i++)
-    {
-        if (item_list.includes(argv[i]))
-            channel.send(`**${argv[i]}** exists already!`);
-        else
-        {
-            item_list.push(argv[i]);
-            nb_items++;
-        }
-    }
+    if (item_list.includes(item))
+        return 1;
+    else
+        item_list.push(item);
 
     item_list.sort();
     fs.writeFileSync("data/items.json", JSON.stringify(item_list));
 
-    channel.send(`Finished adding **${nb_items}** items.`)
+    return 0;
 }
 
 function delete_items(argc, argv, channel)

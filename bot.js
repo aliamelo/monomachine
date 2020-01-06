@@ -20,12 +20,12 @@ client.on("message", msg => {
     /*if (msg.channel.id != ids.draw_chan)
         return;*/
 
-    if (msg.content.startsWith("-item"))
+    if (msg.content.startsWith("-items"))
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[0] != "-item")
+        if (argv[0] != "-items")
             return;
 
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
@@ -55,21 +55,25 @@ client.on("message", msg => {
         {
             if (argc <= 2)
             {
-                msg.channel.send("`item: usage: -item"
-                    + " [add|delete item-name...]`");
+                msg.channel.send("`items: usage: -items"
+                    + " [add|delete item-name]`");
 
                 return;
             }
 
-            item_funcs.add_items(argc, argv, msg.channel);
+            var str = msg.content.replace("-items add ", "");
+            if (item_funcs.add_items(str, msg.channel))
+                msg.channel.send(`**${str}** already exists.`);
+            else
+                msg.channel.send("Done.");
         }
 
         else if (argv[1] == "delete")
         {
             if (argc <= 2)
             {
-                msg.channel.send("`item: usage: -item"
-                    + " [add|delete item-name...]`");
+                msg.channel.send("`items: usage: -items"
+                    + " [add|delete item-name]`");
 
                 return;
             }
@@ -78,7 +82,7 @@ client.on("message", msg => {
         }
 
         else
-            msg.channel.send("`item: usage: -item [add|delete item-name...]`");
+            msg.channel.send("`items: usage: -items [add|delete item-name]`");
     }
 
     else if (msg.content == "-tirage")
