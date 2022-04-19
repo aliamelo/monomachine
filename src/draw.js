@@ -120,7 +120,7 @@ function set_item(id, item, nb)
 function get_inventory(user, guild_memb, page_nb)
 {
     var inventory = JSON.parse(fs.readFileSync("data/inventory.json"));
-    var inv = new Discord.RichEmbed();
+    var inv = new Discord.MessageEmbed();
 
     if (inventory.hasOwnProperty(user.id))
     {
@@ -145,7 +145,8 @@ function get_inventory(user, guild_memb, page_nb)
         inv.addField("** **", inv_str);
     }
 
-    inv.setAuthor(`${user.username}'s inventory`, user.avatarURL);
+    inv.setAuthor({name: `${user.username}'s inventory`,
+                  iconURL: user.avatarURL({})});
     inv.setColor(guild_memb.displayColor);
 
     return inv;

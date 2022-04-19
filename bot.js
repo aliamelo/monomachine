@@ -18,7 +18,6 @@ client.on("ready", () => {
 var inv_user;
 
 client.on("messageCreate", msg => {
-    console.log("pog")
     /*if (msg.channel.id != ids.draw_chan)
         return;*/
 
@@ -147,7 +146,7 @@ client.on("messageCreate", msg => {
 
         if (argc >= 2)
         {
-            if (!argv[1].startsWith("<@!") || argc >= 3)
+            if (!argv[1].startsWith("<@") || argc >= 3)
             {
                 msg.channel.send("`inv: usage: -inv|inventory [@user]`");
                 return;
@@ -161,7 +160,7 @@ client.on("messageCreate", msg => {
 
         var inv_embed = draw_funcs.get_inventory(user,
             msg.channel.members.get(user.id), 0);
-        var inv_promise = msg.channel.send(inv_embed);
+        var inv_promise = msg.channel.send({embeds: [inv_embed]});
 
         inv_user = msg.author;
 
