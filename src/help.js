@@ -11,8 +11,8 @@ function help_message(bot_user, bot_guild_memb, channel)
     help.addField("-help", "Display this window");
     help.addField("-inventory, -inv", "Display inventory of a user "
         + "(message sender by default)\n`usage: -inv|inventory [@user]`");
-    help.addField("-item (admin)", "Display list of items or add/delete items "
-        + "from item list.\n`usage: -item [add|delete item-name]`");
+    help.addField("-items (admin)", "Display list of items or add/delete items "
+        + "from item list.\n`usage: -items [add|delete item-name]`");
     help.addField("-set (admin)", "Set `nb` `item` for `user`. A zero or "
         + "negative value for `nb` deletes `item` from `user`'s inventory. "
         + "`user` must be a mention.\n`usage: -set user nb item`");

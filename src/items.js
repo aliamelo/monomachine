@@ -5,7 +5,7 @@ function get_item_list(bot_user, bot_guild_memb, page_nb)
 {
     var item_list = JSON.parse(fs.readFileSync("data/items.json"));
 
-    var items = new Discord.RichEmbed();
+    var items = new Discord.MessageEmbed();
 
     var length = item_list.length;
     if (page_nb < 0)
@@ -15,15 +15,18 @@ function get_item_list(bot_user, bot_guild_memb, page_nb)
 
     var max_page = Math.floor(length / 15);
     if (max_page > 0)
-        items.setFooter(`Page ${page_nb + 1} / ${max_page + 1}`);
+        items.setFooter({title: `Page ${page_nb + 1} / ${max_page + 1}`});
 
     var items_str = "";
     for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)
         items_str += item_list[i] + '\n';
 
-    items.addField("** **", items_str);
+    if (items_str !== "") {
+        items.addField("** **", items_str);
+    }
 
-    items.setAuthor("Monomachine items", bot_user.avatarURL);
+    items.setAuthor({name: "Monomachine items",
+                    iconURL: bot_user.avatarURL({})});
     items.setColor(bot_guild_memb.displayColor);
 
     return items;

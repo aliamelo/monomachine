@@ -33,7 +33,7 @@ client.on("messageCreate", msg => {
         {
             var items_embed = item_funcs.get_item_list(client.user,
                 msg.channel.members.get(ids.bot), 0);
-            var msg_promise = msg.channel.send(items_embed);
+            var msg_promise = msg.channel.send({embeds: [items_embed]});
 
             if (items_embed.footer)
             {
