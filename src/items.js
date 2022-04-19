@@ -15,7 +15,7 @@ function get_item_list(bot_user, bot_guild_memb, page_nb)
 
     var max_page = Math.floor(length / 15);
     if (max_page > 0)
-        items.setFooter({title: `Page ${page_nb + 1} / ${max_page + 1}`});
+        items.setFooter({text: `Page ${page_nb + 1} / ${max_page + 1}`});
 
     var items_str = "";
     for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)

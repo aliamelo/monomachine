@@ -307,10 +307,10 @@ client.on("messageCreate", msg => {
     }
 });
 
-client.on("messageReactionAdd", (react, user) => {
+function reaction_callback(react, user) {
     if (user.bot || react.message.author.id != ids.bot)
         return;
-
+    
     var embed = react.message.embeds[0];
     var page_nb = parseInt(embed.footer.text.split(' ')[1]) - 1;
 
@@ -320,14 +320,14 @@ client.on("messageReactionAdd", (react, user) => {
         {
             var items_embed = item_funcs.get_item_list(client.user,
                 react.message.channel.members.get(ids.bot), page_nb + 1);
-            react.message.edit(items_embed);
+            react.message.edit({embeds: [items_embed]});
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F") // left arrow
         {
             var items_embed = item_funcs.get_item_list(client.user,
                 react.message.channel.members.get(ids.bot), page_nb - 1);
-            react.message.edit(items_embed);
+            react.message.edit({embeds: [items_embed]});
         }
     }
 
@@ -338,14 +338,14 @@ client.on("messageReactionAdd", (react, user) => {
 
             var inv_embed = draw_funcs.get_inventory(inv_user,
                 react.message.channel.members.get(inv_user.id), page_nb + 1);
-            react.message.edit(inv_embed);
+            react.message.edit({embeds: [inv_embed]});
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F")
         {
             var inv_embed = draw_funcs.get_inventory(inv_user,
                 react.message.channel.members.get(inv_user.id), page_nb - 1);
-            react.message.edit(inv_embed);
+            react.message.edit({embeds: [inv_embed]});
         }
     }
 
@@ -356,19 +356,22 @@ client.on("messageReactionAdd", (react, user) => {
 
             var bday_embed = bday_funcs.display_bdays(
                 react.message.channel.members.get(ids.bot), page_nb + 1);
-            react.message.edit(bday_embed);
+            react.message.edit({embeds: [bday_embed]});
         }
 
         else if (react.emoji.identifier == "%E2%AC%85%EF%B8%8F")
         {
             var bday_embed = bday_funcs.display_bdays(
                 react.message.channel.members.get(ids.bot), page_nb - 1);
-            react.message.edit(bday_embed);
+            react.message.edit({embeds: [bday_embed]});
         }
     }
-});
+}
 
-setInterval(announce_birthday, 60000);
+client.on("messageReactionAdd", reaction_callback);
+client.on("messageReactionRemove", reaction_callback);
+
+//setInterval(announce_birthday, 60000);
 
 function announce_birthday()
 {

@@ -135,14 +135,16 @@ function get_inventory(user, guild_memb, page_nb)
         var footer = "";
         var max_page = Math.floor(length / 15);
         if (max_page > 0)
-            inv.setFooter(`Page ${page_nb + 1} / ${max_page + 1}`);
+            inv.setFooter({text: `Page ${page_nb + 1} / ${max_page + 1}`});
 
         var inv_array = Object.entries(user_inv);
         var inv_str = "";
         for (var i = page_nb * 15; i < length && i < (page_nb + 1) * 15; i++)
             inv_str += `${inv_array[i][1]}x **${inv_array[i][0]}**\n`;
 
-        inv.addField("** **", inv_str);
+        if (inv_str !== "") {
+            inv.addField("** **", inv_str);
+        }
     }
 
     inv.setAuthor({name: `${user.username}'s inventory`,
