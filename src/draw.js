@@ -35,7 +35,7 @@ function add_item(id, item)
         var a = a.replace(/^(la|le|une|l'|un|des|du) /, "");
         var b = b.replace(/^(la|le|une|l'|un|des|du) /, "");
 
-        if (stra > strb)
+        if (a > b)
             return 1;
         return -1;
     }).forEach(function(key) {
@@ -106,7 +106,7 @@ function set_item(id, item, nb)
     Object.keys(inventory[id].items).sort(function (a, b) {
         var a = a.replace(/^(la|le|une|l'|un|des|du) /, "");
         var b = b.replace(/^(la|le|une|l'|un|des|du) /, "");
-        if (stra > strb)
+        if (a > b)
             return 1;
         return -1;
     }).forEach(function(key) {
@@ -134,6 +134,8 @@ function get_inventory(user, guild_memb, page_nb)
 
         var footer = "";
         var max_page = Math.floor(length / 15);
+        if (length % 15 == 0)
+            max_page -= 1;
         if (max_page > 0)
             inv.setFooter({text: `Page ${page_nb + 1} / ${max_page + 1}`});
 

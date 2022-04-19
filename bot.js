@@ -114,7 +114,7 @@ client.on("messageCreate", msg => {
             return;
         }
 
-        if (argc < 4 || isNaN(argv[2]) || !argv[1].startsWith("<@!"))
+        if (argc < 4 || isNaN(argv[2]) || !argv[1].startsWith("<@"))
         {
             msg.channel.send("`set: usage: -set user nb item`");
             return;
@@ -186,7 +186,7 @@ client.on("messageCreate", msg => {
             var bdays_list =
                 bday_funcs.display_bdays(msg.channel.members.get(ids.bot), 0);
 
-            var bday_promise = msg.channel.send(bdays_list);
+            var bday_promise = msg.channel.send({embeds: [bdays_list]});
 
             if (bdays_list.footer)
             {
@@ -277,7 +277,14 @@ client.on("messageCreate", msg => {
         }
 
         if (argc == 1)
-            msg.channel.send(quote_funcs.display_quotes());
+        {
+            quotes = quote_funcs.display_quotes();
+
+            if (quotes === "")
+                msg.channel.send("There is no quotes.");
+            else
+                msg.channel.send(quote_funcs.display_quotes());
+        }
 
         else if (argv[1] == "add")
         {
@@ -371,7 +378,7 @@ function reaction_callback(react, user) {
 client.on("messageReactionAdd", reaction_callback);
 client.on("messageReactionRemove", reaction_callback);
 
-//setInterval(announce_birthday, 60000);
+setInterval(announce_birthday, 5000);//60000);
 
 function announce_birthday()
 {
@@ -379,10 +386,13 @@ function announce_birthday()
     var day = date.getDate().toString().padStart(2, '0');
     var month = (date.getMonth() + 1).toString().padStart(2, '0');
 
-    var channel = client.channels.get(ids.bday_chan);
+    client.channels.fetch(ids.bday_chan)
+        .then(channel => {
+            if (date.getHours() == 0 && date.getMinutes() == 0)
+                channel.send(bday_funcs.get_birthday_date(day, month, 1));  
+        })
+        .catch(console.error);
 
-    if (date.getHours() == 0 && date.getMinutes() == 0)
-        channel.send(bday_funcs.get_birthday_date(day, month, 1));
 }
 
 client.login(ids.token);
