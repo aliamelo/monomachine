@@ -2,11 +2,11 @@ const Discord = require("../dependencies/node_modules/discord.js");
 
 function help_message(bot_user, bot_guild_memb, channel)
 {
-    var help = new Discord.RichEmbed();
+    var help = new Discord.MessageEmbed();
 
-    help.setAuthor("Monomachine help", bot_user.avatarURL);
+    help.setAuthor({name: "Monomachine help", iconURL: bot_user.avatarURL({})});
     help.setColor(bot_guild_memb.displayColor);
-    help.setFooter("monomachine - written in js by alia");
+    help.setFooter({text: "monomachine - written in js by alia"});
     help.addField("-tirage", "Draw an item and add it to user's inventory");
     help.addField("-help", "Display this window");
     help.addField("-inventory, -inv", "Display inventory of a user "
@@ -25,7 +25,7 @@ function help_message(bot_user, bot_guild_memb, channel)
     help.addField("-quote (admin)", "-quote add message / -quote delete "
         + "message\nMessage must contain at least [item] and if "
         + "needed, [user]");
-    channel.send(help);
+    channel.send({embeds: [help]});
 }
 
 module.exports = {

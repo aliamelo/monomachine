@@ -1,5 +1,6 @@
 const Discord = require("./dependencies/node_modules/discord.js");
-const client = new Discord.Client();
+const client = new Discord.Client({
+        intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"]})
 
 const fs = require("fs");
 const ids = JSON.parse(fs.readFileSync("data/ids.json"));
@@ -16,7 +17,8 @@ client.on("ready", () => {
 
 var inv_user;
 
-client.on("message", msg => {
+client.on("messageCreate", msg => {
+    console.log("pog")
     /*if (msg.channel.id != ids.draw_chan)
         return;*/
 
@@ -48,8 +50,7 @@ client.on("message", msg => {
 
             if (msg.author.id != ids.nim && msg.author.id != ids.admin)
             {
-                msg.channel.send("Wait, that's illegal ! "
-                    + "(seule nimou peut utiliser cette commande)");
+                msg.channel.send("You can't use this.");
 
                 return;
             }
@@ -73,8 +74,7 @@ client.on("message", msg => {
 
             if (msg.author.id != ids.nim && msg.author.id != ids.admin)
             {
-                msg.channel.send("Wait, that's illegal ! "
-                    + "(seule nimou peut utiliser cette commande)");
+                msg.channel.send("You can't use this");
 
                 return;
             }
@@ -110,8 +110,7 @@ client.on("message", msg => {
 
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
         {
-            msg.channel.send("Wait, that's illegal."
-                + "(seule nimou peut utiliser cette commande)");
+            msg.channel.send("You can't use this.");
 
             return;
         }
@@ -203,8 +202,7 @@ client.on("message", msg => {
         {
             if (msg.author.id != ids.nim && msg.author.id != ids.admin)
             {
-                msg.channel.send("Wait, that's illegal."
-                    + "(seule nimou peut utiliser cette commande)");
+                msg.channel.send("You can't use this.");
 
                 return;
             }
@@ -229,8 +227,7 @@ client.on("message", msg => {
         {
             if (msg.author.id != ids.nim && msg.author.id != ids.admin)
             {
-                msg.channel.send("Wait, that's illegal."
-                    + "(seule nimou peut utiliser cette commande)");
+                msg.channel.send("You can't use this.");
 
                 return;
             }
@@ -275,8 +272,7 @@ client.on("message", msg => {
 
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
         {
-            msg.channel.send("Wait, that's illegal."
-                + "(seule nimou peut utiliser cette commande)");
+            msg.channel.send("You can't use this.");
 
             return;
         }
