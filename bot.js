@@ -209,7 +209,7 @@ client.on("messageCreate", msg => {
 
             if (argv[1] == "add")
             {
-                var name = msg.content.replace(/[a-z\-\ ]* [0-9\ ]*/, "");
+                var name = msg.content.replace(/[a-z\+\ ]* [0-9\ ]*/, "");
                 bday_funcs.add_birthday(name, argv[2], argv[3]);
                 msg.channel.send("Birthday added.");
             }
@@ -217,13 +217,6 @@ client.on("messageCreate", msg => {
 
         else if (argv[1] == "delete")
         {
-            if (msg.author.id != ids.nim && msg.author.id != ids.admin)
-            {
-                msg.channel.send("You can't use this.");
-
-                return;
-            }
-
             if (argc == 2)
             {
                 msg.channel.send("`bday: usage: "

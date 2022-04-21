@@ -19,8 +19,8 @@ function help_message(bot_user, bot_guild_memb, channel)
     help.addField("+bday", "Usages:\n+bday displays bdays of all registered "
         + "chars.\n+bday name / +bday day month. Shows bday of a "
         + "specific character or for a specific day.\n +bday add day "
-        + "month name(admin command). Add a birthday to the list.\n"
-        + "+bday delete name (admin command). Deletes the birthday of a "
+        + "month name. Add a birthday to the list.\n"
+        + "+bday delete name. Deletes the birthday of a "
         + "character");
     help.addField("+quote (admin)", "+quote add message / +quote delete "
         + "message\nMessage must contain at least [item] and if "
