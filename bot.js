@@ -21,12 +21,12 @@ client.on("messageCreate", msg => {
     /*if (msg.channel.id != ids.draw_chan)
         return;*/
 
-    if (msg.content.startsWith("-items"))
+    if (msg.content.startsWith("+items"))
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[0] != "-items")
+        if (argv[0] != "+items")
             return;
 
         if (argc == 1)
@@ -55,13 +55,13 @@ client.on("messageCreate", msg => {
             }
             if (argc <= 2)
             {
-                msg.channel.send("`items: usage: -items"
+                msg.channel.send("`items: usage: +items"
                     + " [add|delete item-name]`");
 
                 return;
             }
 
-            var str = msg.content.replace("-items add ", "");
+            var str = msg.content.replace("+items add ", "");
             if (item_funcs.add_items(str))
                 msg.channel.send(`**${str}** already exists.`);
             else
@@ -79,13 +79,13 @@ client.on("messageCreate", msg => {
             }
             if (argc <= 2)
             {
-                msg.channel.send("`items: usage: -items"
+                msg.channel.send("`items: usage: +items"
                     + " [add|delete item-name]`");
 
                 return;
             }
 
-            var str = msg.content.replace("-items delete ", "");
+            var str = msg.content.replace("+items delete ", "");
             if (item_funcs.delete_items(str))
                 msg.channel.send(`**${str}** not found.`);
             else
@@ -93,18 +93,18 @@ client.on("messageCreate", msg => {
         }
 
         else
-            msg.channel.send("`items: usage: -items [add|delete item-name]`");
+            msg.channel.send("`items: usage: +items [add|delete item-name]`");
     }
 
-    else if (msg.content == "-tirage")
+    else if (msg.content == "+tirage")
         draw_funcs.draw_command(msg);
 
-    else if (msg.content.startsWith("-set"))
+    else if (msg.content.startsWith("+set"))
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[0] != "-set")
+        if (argv[0] != "+set")
             return;
 
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
@@ -116,7 +116,7 @@ client.on("messageCreate", msg => {
 
         if (argc < 4 || isNaN(argv[2]) || !argv[1].startsWith("<@"))
         {
-            msg.channel.send("`set: usage: -set user nb item`");
+            msg.channel.send("`set: usage: +set user nb item`");
             return;
         }
 
@@ -129,17 +129,17 @@ client.on("messageCreate", msg => {
         }
     }
 
-    else if (msg.content == "-help")
+    else if (msg.content == "+help")
         help_funcs.help_message(client.user, msg.channel.members.get(ids.bot),
             msg.channel);
 
-    else if (msg.content.startsWith("-inventory")
-        || msg.content.startsWith("-inv"))
+    else if (msg.content.startsWith("+inventory")
+        || msg.content.startsWith("+inv"))
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[0] != "-inventory" && argv[0] != "-inv")
+        if (argv[0] != "+inventory" && argv[0] != "+inv")
             return;
 
         var user;
@@ -148,7 +148,7 @@ client.on("messageCreate", msg => {
         {
             if (!argv[1].startsWith("<@") || argc >= 3)
             {
-                msg.channel.send("`inv: usage: -inv|inventory [@user]`");
+                msg.channel.send("`inv: usage: +inv|inventory [@user]`");
                 return;
             }
 
@@ -173,12 +173,12 @@ client.on("messageCreate", msg => {
         }
     }
 
-    else if (msg.content.startsWith("-bday"))
+    else if (msg.content.startsWith("+bday"))
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[0] != "-bday")
+        if (argv[0] != "+bday")
             return;
 
         if (argc == 1)
@@ -199,18 +199,11 @@ client.on("messageCreate", msg => {
 
         else if (argv[1] == "add")
         {
-            if (msg.author.id != ids.nim && msg.author.id != ids.admin)
-            {
-                msg.channel.send("You can't use this.");
-
-                return;
-            }
-
             if (isNaN(argv[2]) || isNaN(argv[3]))
             {
                 msg.channel.send("`bday: usage: "
-                    + "-bday / -bday name / -bday day month / "
-                    + "-bday add day month name / -bday delete name`");
+                    + "+bday / +bday name / +bday day month / "
+                    + "+bday add day month name / +bday delete name`");
                 return;
             }
 
@@ -234,14 +227,14 @@ client.on("messageCreate", msg => {
             if (argc == 2)
             {
                 msg.channel.send("`bday: usage: "
-                    + "-bday / -bday name / -bday day month / "
-                    + "-bday add name day month / -bday delete name`");
+                    + "+bday / +bday name / +bday day month / "
+                    + "+bday add name day month / +bday delete name`");
                 return;
             }
 
             else
             {
-                var name = msg.content.replace("-bday delete ", "");
+                var name = msg.content.replace("+bday delete ", "");
                 if (bday_funcs.del_birthday(name))
                     msg.channel.send(`**${name}**'s birthday deleted!`);
                 else
@@ -256,17 +249,17 @@ client.on("messageCreate", msg => {
 
         else
         {
-            var name = msg.content.replace("-bday ", "");
+            var name = msg.content.replace("+bday ", "");
             bday_funcs.get_birthday_name(name, msg.channel);
         }
     }
 
-    else if (msg.content.startsWith("-quote"))
+    else if (msg.content.startsWith("+quote"))
     {
         var argv = msg.content.split(' ');
         var argc = argv.length;
 
-        if (argv[0] != "-quote")
+        if (argv[0] != "+quote")
             return;
 
         if (msg.author.id != ids.nim && msg.author.id != ids.admin)
@@ -288,7 +281,7 @@ client.on("messageCreate", msg => {
 
         else if (argv[1] == "add")
         {
-            var str = msg.content.replace("-quote add ", "");
+            var str = msg.content.replace("+quote add ", "");
 
             var ret = quote_funcs.add_quote(str);
             if (ret == 1)
@@ -310,7 +303,7 @@ client.on("messageCreate", msg => {
         }
 
         else
-            msg.channel.send("`quote: usage: -quote [add|delete msg]`");
+            msg.channel.send("`quote: usage: +quote [add|delete msg]`");
     }
 });
 
@@ -378,7 +371,7 @@ function reaction_callback(react, user) {
 client.on("messageReactionAdd", reaction_callback);
 client.on("messageReactionRemove", reaction_callback);
 
-setInterval(announce_birthday, 5000);//60000);
+setInterval(announce_birthday, 60000);
 
 function announce_birthday()
 {
